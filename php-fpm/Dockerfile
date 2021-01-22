@@ -112,7 +112,33 @@ RUN if [ ${INSTALL_SSH2} = true ]; then \
     fi && \
     docker-php-ext-enable ssh2 \
 ;fi
+###########################################################################
+# Decimal:
+###########################################################################
 
+ USER root
+
+ ARG PHP_FPM_INSTALL_DECIMAL=true
+
+ RUN if [ ${PHP_FPM_INSTALL_DECIMAL} = true ]; then \
+    apt-get -y install libmpdec-dev && \
+    pecl install decimal && \
+    echo "extension=decimal.so" > /usr/local/etc/php/conf.d/decimal.ini \
+;fi
+
+
+###########################################################################
+# Decimal:
+###########################################################################
+
+ USER root
+
+ ARG PHP_FPM_INSTALL_DECIMAL=true
+
+ RUN if [ ${PHP_FPM_INSTALL_DECIMAL} = true ]; then \
+
+     echo "extension=decimal.so" > /usr/local/etc/php/conf.d/decimal.ini \
+;fi
 ###########################################################################
 # libfaketime:
 ###########################################################################
@@ -421,7 +447,7 @@ RUN if [ ${INSTALL_BCMATH} = true ]; then \
 # PHP Memcached:
 ###########################################################################
 
-ARG INSTALL_MEMCACHED=false
+ARG INSTALL_MEMCACHED=true
 
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension

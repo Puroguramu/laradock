@@ -96,6 +96,21 @@ RUN set -xe; \
 #
 
 ###########################################################################
+# Decimal:
+###########################################################################
+
+ USER root
+
+ ARG WORKSPACE_INSTALL_DECIMAL=true
+
+ RUN if [ ${WORKSPACE_INSTALL_DECIMAL} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install libmpdec-dev && \
+    pecl install decimal && \
+    echo "extension=decimal.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/decimal.ini \
+;fi
+
+###########################################################################
 # Set Timezone
 ###########################################################################
 
@@ -1076,7 +1091,8 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
 ARG INSTALL_PYTHON=false
 
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
-  apt-get -y install python python-pip python-dev build-essential  \
+  apt update \
+  && apt-get -y install python python-pip python-dev build-essential  \
   && python -m pip install --upgrade pip  \
   && python -m pip install --upgrade virtualenv \
 ;fi
